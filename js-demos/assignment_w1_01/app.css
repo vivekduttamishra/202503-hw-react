@@ -1,0 +1,30 @@
+header{
+    background-color: darkslategray;
+    padding: 10px;
+    color:white;
+}
+
+header a, header a:visited{
+    color: white;
+    text-decoration: none;
+
+}
+
+header a:hover{
+    color: yellow;
+    font-weight: 900;
+}
+
+main{
+    margin:10px;
+}
+.spacer{
+    margin:10px;
+}
+.theme-background{
+    background-color:darkslategray !important;
+}
+
+#table-body img{
+    height:120px;
+}
