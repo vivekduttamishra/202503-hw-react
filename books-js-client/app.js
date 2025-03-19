@@ -1,90 +1,146 @@
-let books=[
-    {
-        "id": "the-accursed-god",
-        "title": "The Accursed God",
-        "authorId": "vivek-dutta-mishra",
-        "price": 349,
-        "rating": 4.5,
-        "cover": "https://m.media-amazon.com/images/I/41-KqB1-cqL._SY346_.jpg"
-     },
-     {
-        "id": "harry-potter-and-the-philosophers-stone",
-        "title": "Harry Potter and the Philosopher's Stone",
-        "authorId": "jk-rowling",
-        "price": 450,
-        "rating": 4.8,
-        "cover": "https://m.media-amazon.com/images/I/81m1s4wIPML._AC_UF1000,1000_QL80_.jpg"
-     },
-     {
-        "id": "harry-potter-and-the-chamber-of-secrets",
-        "title": "Harry Potter and the Chamber of Secrets",
-        "authorId": "jk-rowling",
-        "price": 450,
-        "rating": 4.7,
-        "cover": "https://m.media-amazon.com/images/I/81S0LnPGGUL._AC_UF1000,1000_QL80_.jpg"
-     },
-]
+//import bookService from './books.js'
+
 
 //select element by Id
-const searchOnSelector =document.getElementById("search-on");
+const searchOnSelector = document.getElementById("search-on");
 const searchBox = document.getElementById("search");
-const message=document.getElementById("message");
+const message = document.getElementById("message");
 const bookList = document.getElementById("table-body");
 
-const searchBooks=()=>{
+
+function range(query){
+    let [min,max]= query.split('-').map(x=>parseFloat(x.trim()));
+    return {min,max};
+}
+
+const text= query=>query;
+
+//filter
+const exact = field=> text => book=> book[field].toLowerCase()===text.toLowerCase()
+
+//like
+const like = field => text=> book=> book[field].toLowerCase().includes(text.toLowerCase())
+
+//range
+const inRange = field=> range=>book=> book[field]>=range.min && book[field]<range.max
+
+
+//searchBuilder
+let searchBuilder=(parser, matcher)=>({parser,matcher})
+
+//searchOptions
+let searchOptions={
+    all: {parser:text, matcher:()=>(x)=>true},
+    title: searchBuilder(text,like('title')),
+    author: searchBuilder(text,like('authorId') ),
+    price: searchBuilder(range, inRange('price')),
+    rating: searchBuilder(range, inRange('rating')),
+}
+
+
+
+const searchBooks = () => {
     //read content from input
     let criteria = searchOnSelector.value
     let query = searchBox.value
-    searchBox.value=''; //clear search box
+    searchBox.value = ''; //clear search box
 
-    //update ui element
-    message.innerHTML = `searching ${criteria}: ${query}`
-
-    bookList.innerHTML = ''
-
-    bookList.innerHTML =`
-        <tr>
-            <td>searching</td>
-            <td>searchng</td>
-            <td>searching</td>
-            <td>searching</td>
-        </tr>
-    `
-
-
-   
-
+    if(searchOptions[criteria]){
+        let {parser, matcher} = searchOptions[criteria]
+        let q= parser(query)
+        console.log('q',q)
+        let books = bookService.getAll()
+        let filteredBooks = books.filter(matcher(q))
+        showBookList(filteredBooks)
+    }  
 
 }
 
-function updateListDomApproach(){
-    let tr= document.createElement('tr');
-    
+function updateListDomApproach() {
+    let tr = document.createElement('tr');
+
     //set class    
     tr.classList.add('dark');
     //set id attribute for tr
     tr.setAttribute('id', 'search-tr');
 
-    
+
     //add 4 td elements with content 'searching'
-    for(let i=0; i<4; i++){
-        let td=document.createElement('td');
-        td.textContent='searching';
+    for (let i = 0; i < 4; i++) {
+        let td = document.createElement('td');
+        td.textContent = 'searching';
         tr.appendChild(td);
     }
 
-    while(bookList.rows.length)
+    while (bookList.rows.length)
         bookList.deleteRow(0);
 
-    while(bookList.firstChild){
+    while (bookList.firstChild) {
         bookList.removeChild(bookList.firstChild);
     }
 
     bookList.appendChild(tr);
 }
 
+function createElement(name, attributes = {}, ...children) {
+    let element = document.createElement(name);
+    if (attributes._class) {
+        element.setAttribute('class', attributes._class);
+        delete attributes._class;
+    }
+    for (let key in attributes) {
+        element.setAttribute(key, attributes[key]);
+    }
+    children.forEach(child =>{
+        if(!(child instanceof Node)){
+            let _content=child;
+            child = document.createElement('span')
+            child.textContent = _content
+        }
+        element.appendChild(child)
+    });
+    return element;
+}
 
-document.querySelector('body').onload=()=>{
+function showBookList(books) {
+    bookList.innerHTML = ''
+
+    books.forEach(book => {
+        const row = createElement('tr', 
+            //row attribute
+            {
+            id: book.id
+            },
+            //td#1
+            createElement('td', {},
+                //img instide td
+                createElement('img', {
+                    src: book.cover,
+                    alt: book.title
+                })
+            ),
+            //td#2
+            createElement('td', {}, book.title),
+            //td#3
+            createElement('td', {}, book.author),
+            //td#4
+            createElement('td', {},
+                //button
+                createElement('button',
+                    { _class: 'btn btn-sm btn-danger' },
+                    'delete'
+                )                
+            )
+        )
+
+        bookList.appendChild(row);
+    })
+}
+
+
+document.querySelector('body').onload = () => {
     console.log('body loaded');
+    let books =bookService.getAll();
+    showBookList(books);
 }
 
