@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Hello NPM</h1>
+    <p>This is para1</p>
+    <p>This is para2</p>
+    <p>This is para3</p>
+    <p>This is para4</p>
+    <p>This is para5</p>
+    <hr>
+    <div id="console">
+
+    </div>
+    <hr>
+    <button class="btn btn-sm btn-primary" onClick="countParas()">Count Para</button>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        const countParas=()=>{
+            let count = $("p").length
+            $("#console").append(`<p>Total Paras: ${count}</p>`)
+        }
+
+
+    </script>
+
+</body>
+</html>

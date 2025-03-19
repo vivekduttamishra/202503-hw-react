@@ -50,7 +50,7 @@ const searchBooks = () => {
         let q= parser(query)
         console.log('q',q)
         let books = bookService.getAll()
-        let filteredBooks = books.filter(matcher(q))
+        let filteredBooks = books.findAll(matcher(q))
         showBookList(filteredBooks)
     }  
 
@@ -102,7 +102,44 @@ function createElement(name, attributes = {}, ...children) {
     return element;
 }
 
-function showBookList(books) {
+function showBookList(books){
+
+    let  bookRows = books.map(b=>`
+            <tr>
+                <td><img src="${b.cover}"/></td>
+                <td>${b.title}</td>
+                <td>${b.authorId}</td>
+                <td>
+                    <button>details</button>
+                </td>
+            </tr>
+        `).join('\n');
+
+    let booksTable = document.querySelector('BooksTable');
+    
+    booksTable.innerHTML=
+    ` <table class="table table-hover table-dark ">
+        <thead>
+            <tr class="theme-background">
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Author</th>                    
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            ${bookRows}
+        </tbody>
+        </table>    
+    `
+    console.log('booksTable',booksTable);
+    
+
+}
+
+
+
+function showBookList_v1(books) {
     bookList.innerHTML = ''
 
     books.forEach(book => {
@@ -141,6 +178,6 @@ function showBookList(books) {
 document.querySelector('body').onload = () => {
     console.log('body loaded');
     let books =bookService.getAll();
-    showBookList(books);
+   // showBookList(books);
 }
 

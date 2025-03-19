@@ -25,40 +25,36 @@ let books=[
      },
 ]
 
-class BookService{
-    getAll(){
-        return books;
-    }
+// for(let book of books){
+//     console.log(book.title,book.price);
+// }
 
-    getById(bookId){
-        return books.find(book => book.id === bookId);
-    }
+// books.forEach(book=>{
+//     console.log(book.title,book.price)
+// });
 
-    getAllByAuthor(authorId){
-        return books.filter(book => book.authorId === authorId);
-    }
+// let result=[];
+// for(let book of books){
+//     if(book.price>400)
+//         result.push(book);
+// }
 
-    remove(bookId){
-        books = books.filter(book => book.id!== bookId);
-    }
+// let result = books.filter(b=>b.price>400);
+// result.forEach(b=>console.log(b.title,b.price));
 
-    findAll(match){
-        let result=[];
-        for(let book of books){
-            if(match(book)){
-                result.push(book);
-            }
-        }
 
-        return result;
-    }
+// books
+//     .filter(b=>b.price>400)
+//     .forEach(b=>console.log(b))
 
-    search(term){
-        return books.filter(book =>
-            book.title.toLowerCase().includes(term.toLowerCase()) ||
-            book.authorId.toLowerCase().includes(term.toLowerCase())
-        );
-    }
-}
 
-const bookService = new BookService();
+//what if we want to extract price and title from a book.
+// let result =[];
+// for(let book of books){
+//     result.push({title:book.title, price:book.price});
+// }
+
+// result.forEach(b=>console.log(b))
+
+
+books.filter(b=>b.authorId.includes('vivek')).map(b=>b.title).forEach(t=>console.log(t));

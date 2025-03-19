@@ -1,0 +1,20 @@
+{
+  "name": "npm-demo",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rd node_modules /s/q",
+    "start":"echo starting the project in production mode",
+    "dev":"echo starting in development mode"
+
+  },
+  "keywords": [],
+  "author": "Vivek Dutta Mishra",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1"
+  }
+}
