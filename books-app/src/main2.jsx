@@ -54,5 +54,8 @@ let app = React.createElement('div', null,
 
 
 //step#2 add the react to your browser
+//this is html dom
 let root = document.getElementById('root');
+
+//here we connect react 'app' to html 'root'
 createRoot(root).render(app);
