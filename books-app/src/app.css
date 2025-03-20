@@ -22,3 +22,31 @@ header a, header a:visited{
     padding:5px;
 }
 
+.columnwise{
+    display:flex;
+    
+}
+
+.columnwise div{
+    margin-right:10;
+    
+    
+}
+.left{
+    flex:3;
+    border-right:1px solid gray;
+    padding-right:10px;
+}
+.right{
+    flex:7;
+    padding-left:10px;
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.left div{
+    margin-bottom:10px;
+    padding-bottom: 5px;
+    border-bottom:1px solid gray;
+}
