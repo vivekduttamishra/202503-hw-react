@@ -1,4 +1,7 @@
 import { createRoot } from 'react-dom/client';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+//now import your custom css
 import './app.css'
 import App from './App'
 

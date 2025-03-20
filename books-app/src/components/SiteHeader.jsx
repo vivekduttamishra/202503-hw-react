@@ -9,12 +9,19 @@ function SiteHeader(props) {
             </SiteTitle>
             <p>World of books</p>
             <ul>
-                <li><a href=''>Home</a></li>
-                <li><a href=''>Authors</a></li>
-                <li><a href=''>Books</a></li>
                 <li>
-                    Today is: {new Date().toDateString()}
+                    <button className="btn btn-default">Home</button>                    
                 </li>
+                <li>
+                    <button className="btn btn-default">Authors</button>                    
+                </li>
+                <li>
+                    <button className="btn btn-default">Books</button>                    
+                </li>
+                <li>
+                    <button className="btn btn-default">Welcome Vivek | Logout</button>                    
+                </li>
+               
             </ul>
         </header>
     )

@@ -1,5 +1,5 @@
 const SiteTitle = (props) => {
-    console.log('x', props)
+   // console.log('x', props)
 
     let style = {
         color: props.color || "gray",

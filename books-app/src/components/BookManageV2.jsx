@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { Component } from "react";
 import BookDetails from "./BookDetails";
 import BookList from "./BookList";
 
+class BookManager extends Component {
 
-   const BookManager = () => {
-        const [selectedBook,selectBook] = useState(null);
+    constructor(props) {
+        super(props);
+        this.state = {            
+            selectedBook: null
+        };
+    }
+
+
+   render = () => {
+        
     
         const handleBookSelect= book=>{
             //selectedBook=book;
-            //this.setState({selectedBook:book})
-            selectBook(book);
+            this.setState({selectedBook:book})
         }
     
         return (
@@ -22,8 +30,8 @@ import BookList from "./BookList";
                     </div>
                     <div className='right'>
                         {
-                            selectedBook
-                                ?<BookDetails selectedBook={selectedBook} />
+                            this.state.selectedBook
+                                ?<BookDetails selectedBook={this.state.selectedBook} />
                                 :<h3>Select a book to view details.</h3>
                         }
                     </div>
@@ -32,7 +40,7 @@ import BookList from "./BookList";
         )
     }
     
-
+}
 
 
 

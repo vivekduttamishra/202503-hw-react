@@ -58,13 +58,21 @@ class BookList extends Component {
         //     let e=<div>{book.title}</div>
         //     bookElements.push(e)
         // }
-
+        // const handleBookSelect=(id)=>{
+        //     console.log('book selected',id);
+        // }    
 
         return (
             <div className='BookList'>
                 <h2>Book List</h2>
                 {
-                   books.map(book=><div key={book.id}   >{book.title}</div>)
+                   books.map(book=>(
+                   <div key={book.id} className="bookTitle"
+                        onClick={()=>this.props.onBookSelect(book)}
+                    >
+                        {book.title}
+                    </div>
+                    ))
                 }
             </div>
         )
