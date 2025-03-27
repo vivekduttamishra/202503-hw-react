@@ -17,7 +17,7 @@ header a, header a:visited{
     font-weight:bold;
 }
 
-.bookList div{
+.bookList div, .authorList div{
     border-bottom:1px solid gray;
     padding:5px;
 }
@@ -39,7 +39,7 @@ header a, header a:visited{
     flex-direction: row;
    
 }
-.BookList div{
+.BookList div, .AuthorList div{
     margin-bottom:10px;
     padding-bottom: 5px;
     border-bottom:1px solid gray;
@@ -48,7 +48,7 @@ header a, header a:visited{
 
 
 
-.BookDetails img{
+.BookDetails img, .AuthorDetails img{
     height:220px;
     margin-left:10px;
     border: 20px solid black;

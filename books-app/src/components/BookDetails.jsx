@@ -1,15 +1,15 @@
 
 
-const BookDetails = (props)=>{
- 
+const BookDetails = (props) => {
+
     let selectedBook = props.selectedBook;
 
-    if(!selectedBook)
+    if (!selectedBook)
         return null; //no UI
-        
 
-    const getAuthorName=(id)=>{
-        return id.split('-').map(word=>word.charAt(0).toUpperCase()+word.slice(1)).join(' ');
+
+    const getAuthorName = (id) => {
+        return id.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }
 
 
@@ -30,11 +30,16 @@ const BookDetails = (props)=>{
                         <label>Rating</label>
                         <p>{selectedBook.rating}/5</p>
                     </div>
-                    <button className='btn btn-sm btn-danger'>Delete</button>
+                    {
+                        props.user && props.user.roles.includes('admin') &&
+                        <button className= 'btn btn-sm btn-danger' onClick={props.onDelete}>
+                            Delete
+                        </button>
+                    }
                 </div>
                 <div className='right'>
                     <img src={selectedBook.cover}
-                         alt={selectedBook.title} />
+                        alt={selectedBook.title} />
                 </div>
             </div>
         </div>
