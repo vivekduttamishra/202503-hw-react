@@ -9,4 +9,4 @@ const BookEditScreen = ({})=>{
     )
 }
 
-export default AuthorEditScreen;
+export default BookEditScreen;

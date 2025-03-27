@@ -1,6 +1,6 @@
 
 
-const AuthorListScreen = ({})=>{
+const BookListScreen = ({})=>{
 
     return (
     <div className="BookListScreen">
