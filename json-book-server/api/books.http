@@ -1,0 +1,34 @@
+@url=http://localhost:3000/api/users
+
+### Get All Users without token
+# @name() getAllUsers
+GET {{url}}
+
+
+### Login Normal User
+
+### Get a Single Book by ID
+GET {{url}}/books/the-accursed-god?_expand=author&_embed=book_details
+
+### Create a New Book
+POST {{url}}/books/
+Content-Type: application/json
+
+{
+  "title": "Book Title",
+  "author": "Book Author",
+  "description": "Book Description"
+}
+
+### login a user
+# @name() readerLogin
+POST {{url}}/login
+Content-Type: application/json
+
+{
+  "email": "vivek@conceptarchitect.in",
+  "password":"P@ss#123"
+}
+
+
+

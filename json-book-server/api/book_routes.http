@@ -1,0 +1,102 @@
+@url=http://localhost:3000/api/
+
+### 1. Test /books route
+GET {{url}}books HTTP/1.1
+
+
+### 2. Test /books/the-accursed-god route
+GET {{url}}books/the-accursed-god HTTP/1.1
+Content-Type: application/json
+
+### debug auth
+GET {{url}}debug-auth HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{readerToken}}
+
+### 3. Test /books/invalid-id route
+GET {{url}}books/invalid-id HTTP/1.1
+Content-Type: application/json
+
+### 3. Try to create a book without passing auth token (should fail)
+POST {{url}}books HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "New Book",
+  "authorId": "vivek-dutta-mishra",
+  "cover": "cover-url.jpg",
+  "price": 399,
+  "rating": 4.8
+}
+
+### 4. Login using reader credentials (reader@example.com, p@ss#1)
+# @name readerLogin
+POST {{url}}users/login HTTP/1.1
+Content-Type: application/json
+
+{
+ "email": "amit.sharma@example.com",
+  "password": "P@ss#123"
+}
+
+### Save the reader token for later use
+@readerToken = {{readerLogin.response.body.accessToken}}
+
+### 5. Try to create a book with reader token (should fail)
+POST {{url}}books HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{readerToken}}
+
+{
+  "title": "New Book",
+  "authorId": "vivek-dutta-mishra",
+  "cover": "cover-url.jpg",
+  "price": 399,
+  "rating": 4.8
+}
+
+### 6. Login using admin credentials (admin@example.com, p@ss#1)
+# @name adminLogin
+POST {{url}}users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "vivek@conceptarchitect.in",
+  "password": "P@ss#123"
+}
+
+### Save the admin token for later use
+@adminToken = {{adminLogin.response.body.accessToken}}
+
+### 7. Try to create a book with admin token (should work)
+# @name createBook
+POST {{url}}books HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "title": "New Book 3",
+  "authorId": "vivek",
+  "cover": "cover-url.jpg",
+  "price": 399,
+  "rating": 4.8
+}
+
+### save new book id
+@newBookId = {{createBook.response.body.id}}
+
+### verify book is added
+GET {{url}}books/{{newBookId}}
+
+### delete the book WITHOUT credential
+DELETE {{url}}books/{{newBookId}}
+
+### delete book with normal user cre
+ DELETE {{url}}books/{{newBookId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{readerToken}}
+
+### delete book with admin user credentials
+ DELETE {{url}}books/{{newBookId}} HTTP/1.1
+ Content-Type: application/json
+ Authorization: Bearer {{adminToken}}

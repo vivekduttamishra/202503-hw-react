@@ -1,0 +1,74 @@
+.book-card {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    background: white;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .menu-button, .delete-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .delete-button {
+    color: red;
+  }
+  
+  /* 🔥 Popup Now Uses Fixed Positioning */
+  .popup-menu {
+    position: fixed;
+    width: 150px;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1000; /* Ensure it stays above */
+  }
+  
+  /* ✅ Dropdown Button Styling */
+  .popup-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin: 2px 0;
+    border: none;
+    cursor: pointer;
+    background: #f8f8f8;
+    text-align: left;
+  }
+  
+  .popup-menu button:hover {
+    background: #ddd;
+  }
+
+  .book-cover {
+    width: 100%; /* Responsive width */
+    aspect-ratio: 5 / 8; /* Maintains 5:8 aspect ratio */
+    object-fit: cover; /* Ensures it fills the container */
+    border-radius: 5px; /* Slight rounding for aesthetics */
+  }
+  
+  .book-card {
+    width: 120px; /* Adjust width for better fit */
+    padding: 0px;
+    margin:5px;
+    font-size: 12px !important; /* Reduce text size slightly */
+  }
+
+  .book-card h3{
+    font-size:14px;
+  }
+  

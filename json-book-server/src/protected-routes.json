@@ -1,0 +1,54 @@
+[
+  {
+    "path": "/api/books",
+    "methods": [
+      "POST",
+      "PUT"
+    ],
+    "roles": [
+      "admin"
+    ],
+    "match": "startsWith"
+  },
+  {
+    "path": "/api/books",
+    "methods": [
+      "DELETE"
+    ],
+    "roles": [
+      "admin"
+    ],
+    "match": "contains"
+  },
+  {
+    "path": "/api/authors",
+    "methods": [
+      "POST",
+      "PUT"
+    ],
+    "roles": [
+      "user"
+    ],
+    "match": "startsWith"
+  },
+  {
+    "path": "/api/authors",
+    "methods": [
+      "DELETE"
+    ],
+    "roles": [
+      "admin"
+    ],
+    "match": "startsWith"
+  },
+  {
+    "path": "/api/users",
+    "methods": [
+      "GET"
+    ],
+    "roles": [
+      "admin"
+    ]
+    
+  }
+]

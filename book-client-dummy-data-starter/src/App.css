@@ -1,0 +1,31 @@
+.card{
+    margin:5px;
+}
+
+.scrollable-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+    padding-bottom: 10px;
+  }
+  
+  .scrollable-list::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome and Safari */
+  }
+  
+  .scrollable-list-item {
+    flex: 0 0 auto;
+    min-width: 80px;
+    max-width: 120px;
+  }
+  
+
+  .shelf {
+    border-top: 4px solid #8B4513; /* Dark brown for wooden look */
+    border-bottom: 4px solid #8B4513;
+    padding: 10px 0; /* Adds spacing */
+    margin-bottom: 20px; /* Separates shelves */
+  }
+  

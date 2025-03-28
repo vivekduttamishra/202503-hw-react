@@ -1,0 +1,42 @@
+@url=http://localhost:3000/api
+
+### Get All User No Auth  
+# @name getAllUsersNoAuth
+GET {{url}}/users
+
+### Login Normal User
+# @name userLogin
+POST {{url}}/users/login
+Content-Type: application/json
+
+{
+  "email": "amit.sharma@example.com",
+  "password":"P@ss#123"
+}
+
+### Save the reader token for later use
+@userToken = {{userLogin.response.body.accessToken}}
+
+### Try Get all users using userToken
+# @name getAllUsersUsingUserToken
+GET {{url}}/users
+Authorization: Bearer {{userToken}}
+
+
+### Login Admin
+# @name adminLogin
+POST {{url}}/users/login
+Content-Type: application/json
+
+{
+  "email": "vivek@conceptarchitect.in",
+  "password":"P@ss#123"
+}
+
+### Save the reader token for later use
+@adminToken = {{adminLogin.response.body.accessToken}}
+
+### Try Get all users using userToken
+# @name getAllAuthorsUsingAdminToken
+GET {{url}}/users
+Authorization: Bearer {{adminToken}}

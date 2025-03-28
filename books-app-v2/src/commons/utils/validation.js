@@ -1,32 +1,36 @@
 
 
-const assertValid=(condition,errorMessage,defaultErrorMessage)=>{
+export const assertValid=(condition,errorMessage,defaultErrorMessage)=>{
 
     if(!condition)
-        return errorMssage||defaultErrorMessage;       
+        return errorMessage||defaultErrorMessage;       
 
 }
 
 
-const required = errorMessage=> (value,model)=> assertValue(value && value.toString().trim(), errorMessage,"Required")
+export const required = errorMessage=> (value,model)=> assertValid(value && value.toString().trim(), errorMessage,"Required")
 
-const maxLength = (maxLength,errorMessage)=> (value,model)=> assertValid(value && value.toString().length<=maxLength, errorMessage,`Max length allowed is ${maxLength}`)
+export const maxLength = (maxLength,errorMessage)=> (value,model)=> assertValid(value && value.toString().length<=maxLength, errorMessage,`Max length allowed is ${maxLength}`)
 
-const minLength = (minLength,errorMessage)=> (value,model)=> assertValid(value && value.toString().length>=minLength, errorMessage,`Min length required is ${minLength}`)
+export const minLength = (minLength,errorMessage)=> (value,model)=> assertValid(value && value.toString().length>=minLength, errorMessage,`Min length required is ${minLength}`)
 
-const email = errorMessage=> (value,model)=> assertValid(value && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value), errorMessage,"Invalid email")
+export const email = errorMessage=> (value,model)=> assertValid(value && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value), errorMessage,"Invalid email")
 
 //strong password with at least 1 upper case, 1 lower case one diging and one special character ($_#.@<>~-)
-const password = errorMessage=> (value,model)=> assertValid(value && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value), errorMessage,"Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character")
+export const password = errorMessage=> (value,model)=> assertValid(value && /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/.test(value), errorMessage,"Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character")
 
-const match = (field, errorMessage)=> (value,model)=> assertValid(value && value===model[field], errorMessage,`Passwords do not match`)
+//a gneric pattern match validator
 
-const range = (min,max,errorMessage)=> (value,model)=> {
+export const pattern = (pattern, errorMessage)=> (value,model)=> assertValid(value && pattern.test(value), errorMessage,errorMessage)
+
+export const match = (field, errorMessage)=> (value,model)=> assertValid(value && value===model[field], errorMessage,`Passwords do not match`)
+
+export const range = (min,max,errorMessage)=> (value,model)=> {
     value=Number(value);
     return assertValid(value && value>=min && value<=max, errorMessage,`Value should be between ${min} and ${max}`)
 }
 
-const oneOf=(values,errorMessage)=> (value,model)=> assertValid(value && values.find(v=>v.toLowerCase() === value)!== undefined, errorMessage, `Value must be one of ${values.join(', ')}`)
+export const oneOf=(values,errorMessage)=> (value,model)=> assertValid(value && values.find(v=>v.toLowerCase() === value)!== undefined, errorMessage, `Value must be one of ${values.join(', ')}`)
 
 
 //example schema
@@ -48,19 +52,18 @@ const oneOf=(values,errorMessage)=> (value,model)=> assertValid(value && values.
 //     roles:[admin]    //invalid
 // }
 
-const validate = (model, schema)=>{
+export const validate = (model, schema)=>{
     const errors={};
-    const errorCount=0;
-    for(let key of schema){
+    let errorCount=0;
+    for(let key in schema){
 
         const fieldErrors=schema[key].map(validator=> validator(model[key],model));
         errors[key]=fieldErrors.filter(error=>error);
-        errorCount+=fieldErrors.length;
+        console.log(key, fieldErrors.length);
+        errorCount+=errors[key].length;
     }
-
-    return errorCount? errors: null;
+    console.log('errorCount',errorCount)
+    return errorCount ? errors: null;
 }
 
 
-
-export default {required, maxLength, minLength, email, password, match, range, oneOf, validate}

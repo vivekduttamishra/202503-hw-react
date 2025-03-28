@@ -1,0 +1,6 @@
+{
+    "/books": "/books?_expand=author",
+    "/books/:id": "/books/:id?_expand=author&_embed=book_details",
+    "/authors/:id": "/authors/:id?_embed=books",
+    "/reviews": "/reviews?_expand=book"
+}

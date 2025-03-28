@@ -1,0 +1,68 @@
+@url=http://localhost:3000/api/authors
+
+### GetAll Authors
+# @name() getAllAuthors
+GET {{url}}
+
+### GetAuthorByValidId
+# @name() getAuthorById
+GET {{url}}/vivek-dutta-mishra?_embed=books
+
+### Get Page 2 of authors (10 per page)
+# @name() getPage2OfAuthors
+GET {{url}}?_page=5&_limit=10
+
+### Get Authors whose name starts with 'V'
+
+
+### Get Indian authors
+GET {{url}}?tags_like=India
+
+### Add a new author
+# @name() AddNewAuthor
+ POST {{url}}
+ Content-Type: application/json
+
+{
+   "id":"john-doe",
+    "name": "John Doe",
+    "bio": "John Doe is not an author just added to test the api. will soon be deleted.",
+    "primaryWorks": [
+      "Ghazals",
+      "Persian and Hindavi poetry"
+    ],
+    "tags": [
+      "Urdu",
+      "Poetry",
+      "Music",
+      "India"
+    ],
+    "photo": "https://a10.gaanacdn.com/gn_pl_img/playlists/ZaP37OR3Dy/aP37qVMRbD/size_m_1515073805.jpg",
+    "social": null
+}
+  
+
+### Update the new Author
+#@name() updateTheAuthor
+ PUT {{url}}/john-doe
+ Content-Type: application/json
+
+{
+    "id":"john-doe",
+    "name": "John Doe Updated",
+    "bio": "John Doe is an author who has been updated by the test API. will soon be deleted."
+}
+
+### Path the author with part update
+# @name() path name
+
+PATCH {{url}}/john-doe
+Content-Type: application/json
+
+{
+    "name": "John Doe"
+}
+
+### Delete the author
+# name() deleteJohnDoe
+DELETE {{url}}/john-doe
