@@ -25,8 +25,13 @@ if (fs.existsSync(routesFile)) {
   console.log('routes.json not found, skipping custom routes');
 }
 
+const delay= time=> new Promise(resolve=>setTimeout(resolve, time))
 
 //server.use(cors());
+server.use(async (request,response,next)=>{
+  await delay(2000);
+  next();
+})
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 server.db = router.db;

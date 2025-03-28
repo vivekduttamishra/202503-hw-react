@@ -20,11 +20,11 @@ const routes=[
     },
     {
         path:"/books",
-        element:<BookListScreen/>,
+        element:<BookListScreen title="Recommended Books"/>,
     },
     {
         path:"/books/new",
-        element:<BookAddScreen/>,
+        element:<BookAddScreen title="Add New Book Info" />,
     },
     {
         path:"/books/:id",

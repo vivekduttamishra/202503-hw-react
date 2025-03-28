@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import withTitle from "../hoc/withTitle";
 
 const authors = [
   { id: "1", name: "Vyasa" },
@@ -88,7 +89,7 @@ const BookAddScreen = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Add New Book</h2>
+      
 
       {/* Background Preview */}
       <div
@@ -209,4 +210,4 @@ const BookAddScreen = () => {
   );
 };
 
-export default BookAddScreen;
+export default withTitle(BookAddScreen);

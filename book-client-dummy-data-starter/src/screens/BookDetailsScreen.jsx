@@ -1,73 +1,76 @@
 import React, { useEffect, useState } from "react";
 import ScrollableList from "../components/ScrollableList";
-import { FaBook,FaTimesCircle, FaBookmark, FaRegBookmark, FaSpinner } from "react-icons/fa";
+import { FaBook, FaTimesCircle, FaBookmark, FaRegBookmark, FaSpinner } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import bookService from "../services/book-service";
 import { useParams } from "react-router-dom";
 import NotFoundScreen from './NotFoundScreen'
+import Tags from "../components/Tags";
+import { useStatus } from "../contexts/StatusContext";
+import Async from "../components/Async";
 
 
 const unknownAuthorPhoto = "https://avatars.githubusercontent.com/u/35440139?v=4"; // Use unknown author image
 
 export default function BookDetailsScreen() {
-    
-  
-   const {id}  = useParams();
-   
-   const [book, setBook] = useState(null);
-   //const bookData = bookService.getById(id);
-   const [status,setStatus] = useState('pending');
-   
-   
-   useEffect(()=>{
-      setStatus('pending')
-      bookService
-          .getById(id)
-          .then( book=> {
-            setStatus('success')
-            setBook(book)
-          })
-          .catch(error=>{
-            setStatus(error.message)
-          })
-   },[]);
+
+
+  const { id } = useParams();
+
+  const [book, setBook] = useState(null);
+  const { setStatus } = useStatus();
+
+
+  useEffect(() => {
+    setStatus('pending')
+    bookService
+      .getById(id)
+      .then(book => {
+        setStatus('success')
+        setBook(book)
+      })
+      .catch(error => {
+        setStatus('error', error)
+      })
+  }, []);
 
 
 
-    const [shelfStatus, setShelfStatus] = useState(null);
-    const [reviews, setReviews] = useState(book?.reviews);
-    const [review, setReview] = useState({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
-  
+  const [shelfStatus, setShelfStatus] = useState(null);
+  const [reviews, setReviews] = useState(book?.reviews);
+  const [review, setReview] = useState({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
 
-   if(status==='pending'){
-     return <h2>Loading...</h2>;
-   }
 
-   if(status!=='success'){
-    return <NotFoundScreen/>
-   }
 
-    const handleShelfChange = (status) => {
-      if (status === "Remove") {
-        setShelfStatus(null);
-        setBook((prev) => ({ ...prev, shelfCount: Math.max(0, prev.shelfCount - 1) }));
-      } else {
-        setShelfStatus(status);
-        setBook((prev) => ({ ...prev, shelfCount: prev.shelfCount + 1 }));
-      }
-    };
-  
-    const handleInputChange = (e) => setReview({ ...review, [e.target.name]: e.target.value });
-    const submitReview = () => {
-      setReviews([...reviews, review]);
-      setReview({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
-    };
-  
-    return (
-      <div className="container py-4">
+
+  const handleShelfChange = (status) => {
+    if (status === "Remove") {
+      setShelfStatus(null);
+      setBook((prev) => ({ ...prev, shelfCount: Math.max(0, prev.shelfCount - 1) }));
+    } else {
+      setShelfStatus(status);
+      setBook((prev) => ({ ...prev, shelfCount: prev.shelfCount + 1 }));
+    }
+  };
+
+  const handleInputChange = (e) => setReview({ ...review, [e.target.name]: e.target.value });
+  const submitReview = () => {
+    setReviews([...reviews, review]);
+    setReview({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
+  };
+
+  //dummy tags
+  //book.tags=["one"]
+
+  return (
+
+    <Async>
+      {
+        book &&
+        <div className="container py-4">
         {/* Book Title */}
         <h1 className="mb-4">{book.title}</h1>
-  
+
         <div className="row">
           {/* Book Cover & Shelf Icons */}
           <div className="col-12 col-md-4 text-center">
@@ -100,23 +103,20 @@ export default function BookDetailsScreen() {
             </div>
             <p className="mt-1"><FaSpinner /> {book.shelfCount} readers have this on their shelf</p>
           </div>
-  
+
           {/* Book Details */}
           <div className="col-12 col-md-8">
             <p><strong>Author:</strong> {book.author}</p>
             <p><strong>Price:</strong> {book.price}</p>
             <p><strong>Rating:</strong> ⭐ {book.rating}</p>
-            <p>
-              <strong>Tags:</strong>{" "}
-              {book.tags?.map((tag, index) => (
-                <span key={index} className="badge bg-primary me-1">{tag}</span>
-              ))}
-            </p>
+
+            <Tags tags={book.tags} visibility={book.tags !== undefined && book.tags.length > 0} />
+
             <h3>Description</h3>
             <p>{book.description}</p>
           </div>
         </div>
-  
+
         {/* Other Books by Author */}
         <h3 className="mt-4">Other Books by {book.author}</h3>
         <ScrollableList>
@@ -127,7 +127,7 @@ export default function BookDetailsScreen() {
             </div>
           ))}
         </ScrollableList>
-  
+
         {/* Review Form */}
         <h3 className="mt-4">Write a Review</h3>
         <div className="card p-3">
@@ -144,7 +144,7 @@ export default function BookDetailsScreen() {
           <textarea name="details" className="form-control mb-2" placeholder="Review Details" value={review.details} onChange={handleInputChange}></textarea>
           <button className="btn btn-primary" onClick={submitReview}>Submit</button>
         </div>
-  
+
         {/* Reviews List */}
         <h3 className="mt-4">Reviews</h3>
         <ul className="list-group">
@@ -160,5 +160,8 @@ export default function BookDetailsScreen() {
           ))}
         </ul>
       </div>
-    );
-  }
+
+      }
+    </Async>
+  );
+}

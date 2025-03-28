@@ -1,6 +1,9 @@
 import '../utils/arrays'
 import delay from '../utils/delay'
-const url="/api/books";
+
+import axios from '../utils/http'
+
+const url = 'http://localhost:3000/api/books';
 
 class BookService  {
     constructor(){
@@ -49,13 +52,20 @@ class BookService  {
     }
 
     getAll=async()=>{
-        await delay(2000);
-        return this._books;
+        const response =await axios.get(url)
+        //console.log('response',response);
+        return response.data;
     }
 
     getById=async(id)=>{
-        await delay(2000);
-        return this._books.findOne(b=>b.id.toLowerCase()===id.toLowerCase(),`Invalid Book Id:${id}`,{id})
+       let u= `${url}/${id}`
+       try{
+         const response= await axios.get(u)
+         return response.data; //on success
+       }catch(error){
+        console.log('error',error);
+        throw error;
+       }
     }
 
     add=(book)=>{
