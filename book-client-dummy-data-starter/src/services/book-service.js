@@ -82,8 +82,14 @@ class BookService  {
         return this._books.filter(matcher);
     }
 
-    remove=(id)=>{
-        this._books=this._books.filter(b=>b.id.toLower()!==id);
+    remove=async(id)=>{
+        //this._books=this._books.filter(b=>b.id.toLower()!==id);
+         const accessToken = localStorage.getItem("accessToken");
+              let headers={}
+              if(accessToken) 
+                  headers = {Authorization: `Bearer ${accessToken}`}
+
+        await axios.delete(`${url}/${id}`, {headers})
     }
 
     update=(book)=>{

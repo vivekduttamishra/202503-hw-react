@@ -1,12 +1,29 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
+import Async from '../components/Async'
+import { useStatus } from "../contexts/StatusContext";
 const UserLoginScreen = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "vivek@conceptarchitect.in",
+    password: "P@ss#123",
     role: "User", // Default role
   });
+
+  const {setStatus}=useStatus();
+  const {user} =useUserContext();
+  const navigate= useNavigate();
+
+  useEffect(()=>{
+    setStatus('');
+  },[]);
+
+
+  useEffect(()=>{
+    if(user){
+      navigate('/user/profile');
+    }
+  },[user])
 
   const roles = ["User", "Admin"];
 
@@ -14,10 +31,13 @@ const UserLoginScreen = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const {login} = useUserContext();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("User Registered:", formData);
-    // Add API call or form submission logic here
+    console.log("Trying to login:", formData);
+    login(formData);
+    
   };
 
   return (
@@ -63,7 +83,11 @@ const UserLoginScreen = () => {
             </select>
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Register</button>
+          <button type="submit" className="btn btn-primary w-100">Login</button>
+          <Async>
+            <p className='text-success'>Login Successful</p>
+          </Async>
+        
         </form>
 
         <div className="text-center mt-3">

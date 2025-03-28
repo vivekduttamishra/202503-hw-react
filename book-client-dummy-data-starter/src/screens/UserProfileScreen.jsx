@@ -1,32 +1,44 @@
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBook, FaUserEdit, FaUsers, FaStar, FaPlusCircle, FaUserPlus } from "react-icons/fa";
 import Authorize from "../components/Authorize"; // Import role-based component
+import { useUserContext } from "../contexts/UserContext";
 
-const user={
-    name:"Vivek Dutta Mishra",
-    photo: "https://randomuser.me/api/portraits/men/9.jpg",
-    email:"user@email.com",
-    password:"",
-    roles:["admin"]
-}
 export default function UserDashboard() {
     const [editMode, setEditMode] = useState(false);
-    const [formData, setFormData] = useState({
-      name: user.name,
-      email: user.email,
-      password: "",
-      photo: user.photo || "https://via.placeholder.com/80",
-    });
+    const {user}= useUserContext();
+    const navigate= useNavigate();
+
+    useEffect(()=>{
+      if(!user)
+        navigate("/user/login");
+    },[])
+
+    useEffect(()=>{
+
+        if(user){
+          setFormData({...user})
+        }
+
+    },[user])
+
+    
+    const [formData, setFormData] = useState(null);
   
+    
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("Updated User Info:", formData);
       setEditMode(false);
     };
-  
+
+
+    if(user===null)
+      return "";
+
+
     return (
       <div className="container py-4">
         <h1>Welcome, {user.name}!</h1>
@@ -34,7 +46,7 @@ export default function UserDashboard() {
         {/* Profile Section */}
         <div className="card p-3">
           <div className="d-flex align-items-center">
-            <img src={formData.photo} alt="User" className="rounded-circle me-3" width="80" height="80" />
+            <img src={formData?.photo} alt="User" className="rounded-circle me-3" width="80" height="80" />
             <div>
               <h4>{user.name}</h4>
               <p>{user.email}</p>
@@ -46,7 +58,7 @@ export default function UserDashboard() {
         </div>
   
         {/* Edit Profile Modal */}
-        {editMode && (
+        {/* {editMode && (
           <div className="modal d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
             <div className="modal-dialog">
               <div className="modal-content p-3">
@@ -62,7 +74,7 @@ export default function UserDashboard() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
   
         {/* Dashboard Links */}
         <div className="mt-4">

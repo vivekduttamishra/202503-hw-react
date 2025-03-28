@@ -799,14 +799,6 @@
       "cover": "https://m.media-amazon.com/images/I/61UyS0rJc2L._AC_UY327_FMwebp_QL65_.jpg"
     },
     {
-      "id": "anna-karenina",
-      "title": "Anna Karenina",
-      "authorId": "leo-tolstoy",
-      "price": 499,
-      "rating": 4.7,
-      "cover": "https://m.media-amazon.com/images/I/61UyS0rJc2L._AC_UY327_FMwebp_QL65_.jpg"
-    },
-    {
       "id": "great-expectations",
       "title": "Great Expectations",
       "authorId": "charles-dickens",

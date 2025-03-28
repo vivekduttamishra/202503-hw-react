@@ -2,7 +2,7 @@ import HomeScreen from './screens/HomeScreen'
 import BookListScreen from './screens/BookListScreen'
 import BookAddScreen from './screens/BookAddScreen'
 import BookDetailsScreen from './screens/BookDetailsScreen'
-import AuthorListScreen from './screens/AuthorListScreen'
+//import AuthorListScreen from './screens/AuthorListScreen'
 import AuthorAddScreen from './screens/AuthorAddScreen'
 import AuthorDetailsScreen from './screens/AuthorDetailsScreen'
 import UserLoginScreen from './screens/UserLoginScreen'
@@ -11,6 +11,11 @@ import UserProfileScreen from './screens/UserProfileScreen'
 import UserFavoritiesScreen from './screens/UserFavoritesScreen'
 import NotFoundScreen from './screens/NotFoundScreen'
 import UserManage from './screens/UserManage'
+import { lazy, Suspense } from 'react'
+
+let AuthorListScreen = lazy(()=>import('./screens/AuthorListScreen'));
+
+
 
 const routes=[
     {
@@ -32,7 +37,9 @@ const routes=[
     },
     {
         path:"/authors",
-        element:<AuthorListScreen/>,
+        element:(<Suspense fallback={<h2>Loading...</h2>}>
+                    <AuthorListScreen/>,
+            </Suspense>)
     },
     {
         path:"/authors/new",

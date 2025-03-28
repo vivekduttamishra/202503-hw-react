@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserMinus, FaToggleOn, FaToggleOff, FaPlus, FaTrash } from "react-icons/fa";
+import { useUserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const sampleUsers = [
   { id: 1, name: "Alice Johnson", email: "alice@email.com", roles: ["user"], active: true },
@@ -11,6 +13,16 @@ export default function UserManage() {
   const [users, setUsers] = useState(sampleUsers);
   const [editingRoles, setEditingRoles] = useState(null);
   const [newRole, setNewRole] = useState("");
+
+  const {user}=useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!(user && user.roles.includes('admin')))
+      navigate('/user/login');
+
+  },[user]);
+
 
   const toggleUserStatus = (userId) => {
     setUsers(users.map(user => user.id === userId ? { ...user, active: !user.active } : user));

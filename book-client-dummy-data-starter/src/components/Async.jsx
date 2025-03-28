@@ -2,7 +2,7 @@ import { useStatus } from "../contexts/StatusContext"
 
 
 export const ErrorView=(props)=>{    
-    return <h2 className="text-danger">Error: {props.error.message}</h2>
+    return <p className="text-danger">Error: {props.error.message}</p>
 }
 
 const Async = (props)=>{
@@ -10,7 +10,7 @@ const Async = (props)=>{
     const {status,error} = useStatus();
 
     if(status==='pending')
-        return <h2>Loading. Please wait...</h2>;
+        return <p>Loading. Please wait...</p>;
 
     if(status==='error')
         return <ErrorView error={error} />;

@@ -59,6 +59,19 @@ export default function BookDetailsScreen() {
     setReview({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
   };
 
+  const [deleteStatus, setDeleteStatus]=useState('');
+
+  const handleDelete = async()=>{
+    try{
+      setDeleteStatus('deleting...');
+      await bookService.remove(book.id);
+      setDeleteStatus('deleted');
+    }catch(error){
+      console.log('error',error);
+      setDeleteStatus(error.message);
+    }
+  }
+
   //dummy tags
   //book.tags=["one"]
 
@@ -102,6 +115,10 @@ export default function BookDetailsScreen() {
               />
             </div>
             <p className="mt-1"><FaSpinner /> {book.shelfCount} readers have this on their shelf</p>
+          
+            <button onClick={handleDelete} className='btn btn-sm btn-danger'>Delete</button>
+          
+            {deleteStatus}
           </div>
 
           {/* Book Details */}
