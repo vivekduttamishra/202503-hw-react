@@ -69,18 +69,11 @@ const LoggedInMode = (props) => {
 
     const {logout}= useUserContext();
     const navigate=useNavigate();
-    useEffect(()=>{
-
-        return ()=>{
-            //when this component is unmounted
-            //navigate("/");
-        }
-
-    },[])
-    
+   
 
     const handleLogout=()=>{
         logout();
+        navigate("/")
     }
 
     return (
@@ -108,10 +101,7 @@ const Membership = (props) => {
         loadCurrentLogin();
     },[])
 
-    useEffect(()=>{       
-        // if(!user)
-        //     navigate('/');
-    },[user])
+    
 
     return (
         <ul className="navbar-nav ms-auto">

@@ -59,27 +59,28 @@ export default function BookDetailsScreen() {
     setReview({ name: "", rating: "", title: "", details: "", photo: unknownAuthorPhoto });
   };
 
-  const [deleteStatus, setDeleteStatus]=useState('');
+  const deleteStatus= useStatus('deleteBook');
 
+  const {status:delStatus, setStatus:setDelStatus}=useStatus('delete_book')
+  console.log('delStatus', delStatus)
+  
   const handleDelete = async()=>{
-    try{
-      setDeleteStatus('deleting...');
+    try{      
+      deleteStatus.setStatus('pending')
       await bookService.remove(book.id);
-      setDeleteStatus('deleted');
-    }catch(error){
-      console.log('error',error);
-      setDeleteStatus(error.message);
+      deleteStatus.setStatus('success')      
+    }catch(error){     
+      deleteStatus.setStatus('error',error);
     }
   }
 
-  //dummy tags
-  //book.tags=["one"]
+ 
 
   return (
 
     <Async>
-      {
-        book &&
+      { ()=>
+        
         <div className="container py-4">
         {/* Book Title */}
         <h1 className="mb-4">{book.title}</h1>
@@ -117,8 +118,10 @@ export default function BookDetailsScreen() {
             <p className="mt-1"><FaSpinner /> {book.shelfCount} readers have this on their shelf</p>
           
             <button onClick={handleDelete} className='btn btn-sm btn-danger'>Delete</button>
-          
-            {deleteStatus}
+            <Async action='deleteBook' loader={<p className='text-primary'>Deleting</p>}>
+              {()=>"Deleted"}
+            </Async>
+            
           </div>
 
           {/* Book Details */}

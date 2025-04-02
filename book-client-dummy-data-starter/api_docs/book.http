@@ -1,0 +1,24 @@
+@url=http://localhost:3000/api/books
+
+
+###get all books
+GET {{url}}
+
+### get first 5 books
+GET {{url}}?_page=1&_limit=5
+
+### get third page each page as 10 books
+
+GET {{url}}?_page=3&_limit=10
+
+### get a specific book by id
+GET {{url}}/rashmirathi
+
+### Include more book details of rashmirathi
+GET {{url}}/rashmirathi?_expand=author&_embed=book_details
+
+### Get book by author
+GET {{url}}?authorId=jk-rowling
+
+
+

@@ -10,7 +10,10 @@ const UserLoginScreen = () => {
     role: "User", // Default role
   });
 
-  const {setStatus}=useStatus();
+  const {status, setStatus}=useStatus();
+  console.log('status',status);
+
+
   const {user} =useUserContext();
   const navigate= useNavigate();
 
@@ -85,7 +88,7 @@ const UserLoginScreen = () => {
 
           <button type="submit" className="btn btn-primary w-100">Login</button>
           <Async>
-            <p className='text-success'>Login Successful</p>
+           {()=><p className='text-success'>Login Successful</p>}
           </Async>
         
         </form>
